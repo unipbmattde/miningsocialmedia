@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Grid Item Animation Layout - Demo 1</title>
+		<meta name="description" content="A responsive, magazine-like website layout with a grid item animation effect when opening the content" />
+		<meta name="keywords" content="grid, layout, effect, animated, responsive, magazine, template, web design" />
+		<meta name="author" content="Codrops" />
+		<link rel="shortcut icon" href="../favicon.ico">
+		<link rel="stylesheet" type="text/css" href="normalize.css" />
+		<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.3.0/css/font-awesome.min.css" />
+		<link rel="stylesheet" type="text/css" href="style1.css" />
+		<script src="modernizr.custom.js"></script>
+                
+                
+                
+                <script src="jquery.js" type="text/javascript"></script>
+                <script src="raphael.js" type="text/javascript"></script>
+                <script src="elycharts.js" type="text/javascript"></script> 
+                <script src="jquery.rwdImageMaps.js"></script>
+                
+                <link class="include" rel="stylesheet" type="text/css" href="jqplot/jquery.jqplot.css" />
+                <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+                
+                <style>
+                    img[usemap] {
+                        height: auto;
+                        max-width: 100%;
+                        width: auto;
+                        }
+                        
+                </style>
+                <script language="javascript">
+                var element_g;
+                function showInfo(element)
+                {
+                  // Hier irgendwelche Datenabfragen via Ajax oder ähnliches rein und mit
+                  //document.getElementById('hover').innerHTML = "blablabla";
+                  // ausgeben.
+                  element_g=element;
+                  document.getElementById(element).style.visibility = "visible";
+                  document.onmousemove=mouseposition;
+                }
+
+                function mouseposition(e)
+                {
+                  var x = e? e.pageX : event.clientX;
+                  var y = e? e.pageY : event.clientY;
+                  document.getElementById(element_g).style.top = y + "px";
+                  if (myWidth = window.innerWidth > 610){
+                      document.getElementById(element_g).style.left = x - 280 + "px";
+                  }else{
+                      document.getElementById(element_g).style.left = x + "px";
+                  }
+                  
+                }
+
+                function clearInfo(element)
+                {
+                  document.onmousemove=null;
+                  document.getElementById(element).style.visibility = "hidden";
+                }
+
+                </script>
+                
+	</head>
+	<body>
+		<div class="container">
+			<button id="menu-toggle" class="menu-toggle"><span>Menu</span></button>
+			<div id="theSidebar" class="sidebar">
+				<button class="close-button fa fa-fw fa-close"></button>
+                                <a class="codrops-icon codrops-icon--prev" href="index.ejs" title="Back"><span>zurück</span></a>
+				
+				<h1>Facebook-Page Analythics</h1>
+                                            <h2>Weltkarte</h2>
+				<!--<nav class="codrops-demos">
+					<a class="current-demo" href="index.ejs">Demo 1</a>
+					<a href="index2.html">Demo 2</a>
+				</nav>-->
+				<div class="related">
+					<h3>Üebersichten</h3>
+					<a href="my_page.html">Meine Seite</a>
+					<a href="worldmap.ejs">Weltkarte</a>
+					<a href="developers.html">Entwikler</a>
+				</div>
+			</div>
+			<div id="theGrid" class="main">
+				<section class="grid">
+					<header class="top-bar">
+						<h2 class="top-bar__headline">Create by Thomas &amp; Matthias</h2>
+						<div class="filter">
+							<span>Ort:</span>
+							<span> Start/Weltkarte</span>
+						</div>
+					</header>
+				</section>
+                            <h1 style="text-align: center">Weltkarte</h1>
+                            <div>
+                                <img src="content/welt.jpg" alt="Mountain View" style="width:954px;height:auto;border-style: double; border-color: red; border-width: 5px" usemap="#worldmap">
+                                <map name="worldmap">
+                                    <area id="usa" shape="poly" coords="82,127,166,139,181,145,198,157,229,149,236,158,214,168,190,183,186,195,161,209,158,235,154,215,132,217,117,219,104,231,100,214,90,214,87,205,75,204,60,198,53,184,50,165,70,140" alt="USA" title="USA"
+                                          onMouseOver="showInfo('USA_info')" onMouseOut="clearInfo('USA_info')">
+                                    <area class="infobox" id="GE" shape="poly" coords="455,127,468,127,470,139,463,144,461,150,448,151,446,144,442,138,448,129" alt="Germany" title="GER" 
+                                          onMouseOver="showInfo('GER_info')" onMouseOut="clearInfo('GER_info')"> 
+                                    <area  alt="Australien" title="Australien" shape="poly" coords="777,489,781,455,796,432,822,415,838,406,857,395,869,395,865,410,878,422,889,394,894,411,900,438,904,453,892,492,871,512,856,524,849,539,848,522,840,508,844,489,836,495,827,483,809,487,793,494" 
+                                           onMouseOver="showInfo('Australia_info')" onMouseOut="clearInfo('Australia_info')">
+                                </map> 
+                                <script>
+                                $(document).ready(function(e) {
+                                        $('img[usemap]').rwdImageMaps();
+
+                                        $('area').on('click', function() {
+                                                alert($(this).attr('alt') + ' clicked');
+                                        });
+                                });
+                                </script>
+                                
+                            </div>
+                            <div id='USA_info' style="visibility: hidden; position: absolute; background: rgba(220,160,140,0.5);"> 
+                                <div id="chart_USA" style="margin-top:20px; margin-left:20px; width:560px; height:300px;"></div>
+        
+                                <script class="code" type="text/javascript">$(document).ready(function(){
+                                    plot2 = jQuery.jqplot('chart_USA', 
+                                      [[['Verwerkende industrie', 9],['Retail', 0], ['Primaire producent', 0], 
+                                      ['Out of home', 0],['Groothandel', 0], ['Grondstof', 0], ['Consument', 3], ['Bewerkende industrie', 2]]], 
+                                      {
+                                        title: ' ', 
+                                        seriesDefaults: {
+                                          shadow: false, 
+                                          renderer: jQuery.jqplot.PieRenderer, 
+                                          rendererOptions: { 
+                                            startAngle: 180, 
+                                            sliceMargin: 4, 
+                                            showDataLabels: true } 
+                                        }, 
+                                        legend: { show:true, location: 'w' }
+                                      }
+                                    );
+                                  });
+                                </script>
+                                
+                            </div>
+                            <div id='GER_info' style="visibility: hidden; position: absolute; background: rgba(220,160,140,0.5);"> 
+                                <div id="chart_GER" style="margin-top:20px; margin-left:20px; width:560px; height:300px;"></div>
+        
+                                <script class="code" type="text/javascript">$(document).ready(function(){
+                                    var plot1 = $.jqplot('chart_GER', [[['a',25],['b',14],['c',7]]], {
+                                        gridPadding: {top:0, bottom:38, left:0, right:0},
+                                        seriesDefaults:{
+                                            renderer:$.jqplot.PieRenderer, 
+                                            trendline:{ show:false }, 
+                                            rendererOptions: { padding: 8, showDataLabels: true }
+                                        },
+                                        legend:{
+                                            show:true, 
+                                            placement: 'outside', 
+                                            rendererOptions: {
+                                                numberRows: 1
+                                            }, 
+                                            location:'s',
+                                            marginTop: '15px'
+                                        }       
+                                    });
+                                });
+                                </script>
+                                
+                            </div>
+                            <div id='Australia_info' style="visibility: hidden; position: absolute; background: rgba(220,160,140,0.5);"> 
+                                <div id="chart_Australia" style="margin-top:20px; margin-left:20px; width:560px; height:300px;"></div>
+        
+                                <script class="code" type="text/javascript">$(document).ready(function(){
+                                    var s1 = [2, 6, 7, 10];
+                                    var s2 = [7, 5, 3, 2];
+                                    var ticks = ['a', 'b', 'c', 'd'];
+
+                                    plot2 = $.jqplot('chart_Australia', [s1, s2], {
+                                        seriesDefaults: {
+                                            renderer:$.jqplot.BarRenderer,
+                                            pointLabels: { show: true }
+                                        },
+                                        axes: {
+                                            xaxis: {
+                                                renderer: $.jqplot.CategoryAxisRenderer,
+                                                ticks: ticks
+                                            }
+                                        }
+                                    });
+
+                                    $('#chart2').bind('jqplotDataHighlight', 
+                                        function (ev, seriesIndex, pointIndex, data) {
+                                            $('#info2').html('series: '+seriesIndex+', point: '+pointIndex+', data: '+data);
+                                        }
+                                    );
+
+                                    $('#chart2').bind('jqplotDataUnhighlight', 
+                                        function (ev) {
+                                            $('#info2').html('Nothing');
+                                        }
+                                    );
+                                });
+                                </script>
+                                
+                            </div>
+			</div> 
+		</div><!-- /container -->
+		<script src="classie.js"></script>
+		<script src="main.js"></script>
+                
+                <!-- jqplot start -->
+                <script class="include" type="text/javascript" src="jqplot/jquery.jqplot.js"></script>
+                <script class="include" type="text/javascript" src="jqplot/jqplot.pieRenderer.js"></script>
+                <script class="include" type="text/javascript" src="jqplot/plugins/jqplot.barRenderer.js"></script>
+                <script class="include" type="text/javascript" src="jqplot/plugins/jqplot.categoryAxisRenderer.js"></script>
+                <script class="include" type="text/javascript" src="jqplot/plugins/jqplot.pointLabels.js"></script>
+                <!-- jqplot ende -->
+	</body>
+</html>
